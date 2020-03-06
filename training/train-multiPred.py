@@ -1,19 +1,3 @@
-'''
-data downloaded from: http://download.macrotrends.net/assets/php/stock_data_export.php?t=[SYMBOL NAME]
-read_csv documentation: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html
-to_csv documentation: https://pandas.pydata.org/pandas-docs/version/0.19.1/generated/pandas.DataFrame.to_csv.html
-'''
-#warning suppression
-import warnings  
-with warnings.catch_warnings():  
-    warnings.filterwarnings('ignore', category=DeprecationWarning)
-    warnings.filterwarnings('ignore', category=FutureWarning)
-    import tensorflow as tf
-    from tensorflow import keras
-    from tensorflow.keras.preprocessing.text import Tokenizer
-tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
-##import datetime as dt
 import pandas as pd
 from sklearn import preprocessing
 import numpy as np
