@@ -8,7 +8,7 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return render_template('web/Home.html')
+    return render_template('web/home.html')
 
 
 @socketio.on('my event', namespace='/test')
