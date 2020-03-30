@@ -4,8 +4,6 @@ import bs4 as bs
 import pickle
 import pandas_datareader.data as web
 
-from pandas_datareader._utils import RemoteDataError
-
 
 def get_symbols():
     resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
@@ -39,12 +37,13 @@ def get_data():
     for symbol in symbols:
         if not os.path.exists('stock_data/{}.csv'.format(symbol)):
             try:
-                df = web.get_data_tiingo(symbol, api_key=os.getenv('TIINGO_API_KEY'))
+                df = web.get_data_tiingo(symbol.replace('.', '-'), api_key=os.getenv('TIINGO_API_KEY'))
                 df.reset_index(inplace=True)
                 df.set_index("date", inplace=True)
                 df.to_csv('stock_data/{}.csv'.format(symbol))
-            except RemoteDataError:
+            except Exception:
                 print(symbol + ' not found')
 
 
-get_data()
+if __name__ == '__main__':
+    get_data()
