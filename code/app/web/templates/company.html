@@ -22,7 +22,6 @@
       <li class="nav-item active">
         <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
       </li>
-
     </ul>
     <!--Javascript for search button-->
     <form class="form-inline my-2 my-lg-0">
@@ -41,8 +40,7 @@
     </script>
   </div>
 </nav>
-<!--name of company in BLANK places-->
-
+<!--Name of company in BLANK places-->
 <div class="jumbotron">
   <h1 class="display-4">FINANCE GOONS</h1>
   <p class="lead">COMPANY</p>
@@ -51,8 +49,8 @@
   <p>BLANK is predicted to be doing BLANK soon.</p>
 </div>
 <!--Graph for company-->
-<!--<img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">-->
-<div id="graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;"></div>
+<img id="graph" src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
+<!--<div id="graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;"></div>-->
 <script type="text/javascript">
   async function renderBasic() {
     const response = await fetch('api/company${symbol}');
@@ -65,7 +63,7 @@
 
     let x = [];
     for (let i = 0; i < room.length; i++) {
-      x.push([team, room[i], total_member[i]]);
+      x.push([open[i], close[i]]);
     }
 
     google.charts.load('current', {packages: ['corechart', 'line']});
@@ -75,37 +73,19 @@
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'X');
       data.addColumn('number', 'Dogs');
-
-      data.addRows([
-        [0, 0], [1, 10], [2, 23], [3, 17], [4, 18], [5, 9],
-        [6, 11], [7, 27], [8, 33], [9, 40], [10, 32], [11, 35],
-        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
-        [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
-        [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
-        [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65],
-        [36, 62], [37, 58], [38, 55], [39, 61], [40, 64], [41, 65],
-        [42, 63], [43, 66], [44, 67], [45, 69], [46, 69], [47, 70],
-        [48, 72], [49, 68], [50, 66], [51, 65], [52, 67], [53, 70],
-        [54, 71], [55, 72], [56, 73], [57, 75], [58, 70], [59, 68],
-        [60, 64], [61, 60], [62, 65], [63, 67], [64, 68], [65, 69],
-        [66, 70], [67, 72], [68, 75], [69, 80]
-      ]);
+      data.addRows(x);
 
       var options = {hAxis: {title: 'Time'}, vAxis: {title: 'Popularity'}};
-
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
       chart.draw(data, options);
     }
   }
-
   renderBasic()
 </script>
-
+<!-- jQuery first, then Popper.js, then Bootstrap js -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-
 </body>
 </html>
