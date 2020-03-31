@@ -49,8 +49,9 @@
   <p>BLANK is predicted to be doing BLANK soon.</p>
 </div>
 <!--Graph for company-->
-<img id="graph" src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
-<!--<div id="graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;"></div>-->
+<div id="graph">
+  <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
+</div>
 <script type="text/javascript">
   async function renderBasic() {
     const response = await fetch('api/company${symbol}');

@@ -4,13 +4,13 @@ import pickle
 
 from flask import jsonify
 
-# from . import app
+from . import web
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "database")
 
 
-# @app.route('/api/company')
+@web.route('/api/company')
 def company(symbol):
     if os.path.exists(os.path.join(DATA_DIR, "symbols.pickle")):
         with open(os.path.join(DATA_DIR, "symbols.pickle"), "rb") as f:

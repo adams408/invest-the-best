@@ -7,21 +7,31 @@ socketio = SocketIO(app)
 
 
 @app.route('/')
-def index():
+def home():
     return render_template('home.html')
 
 
-@socketio.on('my event', namespace='/test')
+# @code.route('/industry')
+# def industry():
+#     return render_template('industry.html')
+#
+#
+# @code.route('/industry/company')
+# def company():
+#     return render_template('company.html')
+
+
+@socketio.on('my event', namespace='/')
 def test_message(message):
     emit('my response', {'database': message['database']})
 
 
-@socketio.on('connect', namespace='/test')
+@socketio.on('connect', namespace='/')
 def test_connect():
     emit('my response', {'database': 'Connected'})
 
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('disconnect', namespace='/')
 def test_disconnect():
     print('client disconnected')
 

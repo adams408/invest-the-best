@@ -471,12 +471,12 @@ AddDefaultCharset utf-8
 # The example policy below aims to:
 #
 #  (1) Restrict all fetches by default to the origin of the current website
-#      by setting the `default-src` directive to `'self'` - which acts as a
+#      by setting the `default-app` directive to `'self'` - which acts as a
 #      fallback to all "Fetch directives" (https://developer.mozilla.org/en-US/docs/Glossary/Fetch_directive).
 #
 #      This is convenient as you do not have to specify all Fetch directives
 #      that apply to your site, for example:
-#      `connect-src 'self'; font-src 'self'; script-src 'self'; style-src 'self'`, etc.
+#      `connect-app 'self'; font-app 'self'; script-app 'self'; style-app 'self'`, etc.
 #
 #      This restriction also means that you must explicitly define from
 #      which site(s) your website is allowed to load resources from.
@@ -525,7 +525,7 @@ AddDefaultCharset utf-8
 
 # <IfModule mod_headers.c>
 #     #                                   (1)                 (2)              (3)                 (4)                     (5)
-#     Header set Content-Security-Policy "default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" "expr=%{CONTENT_TYPE} =~ m#text/html#i"
+#     Header set Content-Security-Policy "default-app 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" "expr=%{CONTENT_TYPE} =~ m#text/html#i"
 # </IfModule>
 
 # ----------------------------------------------------------------------
