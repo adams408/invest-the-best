@@ -1,5 +1,5 @@
 """
-data downloaded from: http://download.macrotrends.net/assets/php/stock_data_export.php?t=[SYMBOL NAME]
+database downloaded from: http://download.macrotrends.net/assets/php/stock_data_export.php?t=[SYMBOL NAME]
 read_csv documentation: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html
 to_csv documentation: https://pandas.pydata.org/pandas-docs/version/0.19.1/generated/pandas.DataFrame.to_csv.html
 """
@@ -33,18 +33,18 @@ tf.compat.v1.enable_eager_execution()
 
 def load_data(symbol):
     df = pd.DataFrame()
-    if os.path.exists(f'data/stock_data/{symbol}.csv'):
-        df = pd.read_csv(f'data/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
+    if os.path.exists(f'database/stock_data/{symbol}.csv'):
+        df = pd.read_csv(f'database/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
     else:
-        print(f'{symbol} data not found\ntrying to download...')
+        print(f'{symbol} database not found\ntrying to download...')
         
-        # MODIFIED CODE FROM 'data.py'
+        # MODIFIED CODE FROM 'database.py'
         os.environ['TIINGO_API_KEY'] = '31db9807b1b41a9e85229876c01472b6a4f263ed'
         try:
             df = web.get_data_tiingo(symbol, api_key=os.getenv('TIINGO_API_KEY'))
             df.reset_index(inplace=True)
             df.set_index('date', inplace=True)
-            df.to_csv(f'data/stock_data/{symbol}.csv')
+            df.to_csv(f'database/stock_data/{symbol}.csv')
             df.drop(columns=['symbol', 'volume', 'adjClose', 'adjHigh', 'adjLow', 'adjOpen', 'adjVolume', 'divCash', 'splitFactor'], inplace=True)
         except:
             # print(sys.exc_info[0],df)
@@ -72,22 +72,22 @@ if __name__ == "__main__":
     
     if not os.path.exists('ai/models'):
         os.mkdir('ai/models')
-    if not os.path.exists('data/stock_data'):
-        os.mkdir('data/stock_data')
+    if not os.path.exists('database/stock_data'):
+        os.mkdir('database/stock_data')
     if not os.path.exists('ai/test_images'):
         os.mkdir('ai/test_images')
     if not os.path.exists('ai/predictions'):
         os.mkdir('ai/predictions')
-    if not os.path.exists("data/symbols.pickle"):
-        # symbols = data.get_symbols()
-        print('symbols file needs to be downloaded into data directory.')
+    if not os.path.exists("database/symbols.pickle"):
+        # symbols = database.get_symbols()
+        print('symbols file needs to be downloaded into database directory.')
     else:
-        with open("data/symbols.pickle", "rb") as f:
+        with open("database/symbols.pickle", "rb") as f:
             symbols = pickle.load(f)
         # print(os.getcwd())
         # exit()
 
-    if len(os.listdir('data/stock_data')) == 0:
+    if len(os.listdir('database/stock_data')) == 0:
         data.get_data()
 
     for symbol in symbols:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
             print(f'{symbol} is not availible at this time')
             continue
         if df.shape[0] < 300:
-            print(f'{symbol} does not have enough data')
+            print(f'{symbol} does not have enough database')
             continue
         date_range = df.index.tolist()
         normalizer = preprocessing.MinMaxScaler()

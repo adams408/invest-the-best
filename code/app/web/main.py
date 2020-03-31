@@ -8,17 +8,17 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return render_template('web/home.html')
+    return render_template('home.html')
 
 
 @socketio.on('my event', namespace='/test')
 def test_message(message):
-    emit('my response', {'data': message['data']})
+    emit('my response', {'database': message['database']})
 
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
-    emit('my response', {'data': 'Connected'})
+    emit('my response', {'database': 'Connected'})
 
 
 @socketio.on('disconnect', namespace='/test')
