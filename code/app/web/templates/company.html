@@ -8,6 +8,34 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var today = new Date();
+
+      var data = google.visualization.arrayToDataTable([
+        ['Year', 'Stocks'],
+        [today.getFullYear()-6,  800],
+        [today.getFullYear()-5,  700],
+        [today.getFullYear()-4,  750],
+        [today.getFullYear()-3,  800],
+        [today.getFullYear()-2,  900],
+        [today.getFullYear()-1,  1000],
+        [today.getFullYear(),  1030]
+      ]);
+
+      var options = {
+        title: 'Company Performance',
+        hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+        vAxis: {minValue: 0}
+      };
+
+      var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  </script>
   <title>Invest The Best</title>
 </head>
 <body>
@@ -53,9 +81,14 @@
   <p>BLANK is predicted to be doing BLANK soon.</p>
 </div>
 <!--Graph for company-->
-<div id="graph">
+<div id="symbol">
   <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
 </div>
+<!--Symbol for company-->
+<div id="graph">
+  <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</div>
+
 <script type="text/javascript">
   async function renderBasic() {
     const response = await fetch('api/company${symbol}');
