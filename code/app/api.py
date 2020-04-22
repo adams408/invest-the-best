@@ -4,10 +4,10 @@ import pickle
 
 from flask import jsonify
 
-from . import web
+from code.app.web import web
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "database")
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
 @web.route('/api/company')
