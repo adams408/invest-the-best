@@ -16,23 +16,26 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/industry')
+@app.route('/industry', methods=['GET', 'POST'])
 def industry():
     if request.method == 'GET':
         return render_template('industry.html')
     if request.method == 'POST':
-        if os.path.exists(os.path.join(DATA_DIR, "symbols.pickle")):
-            with open(os.path.join(DATA_DIR, "symbols.pickle"), "rb") as f:
-                symbols = pickle.load(f)
-        symbol = symbols[0]
-        return jsonify(pd.read_csv(os.path.join(DATA_DIR, "stock_data/{}.csv").format(symbol)).to_dict('list'))
-
+        data = ""
         # return render_template('industry.html', data=data)
 
 
-@app.route('/industry/company')
+@app.route('/industry/company', methods=['GET', 'POST'])
 def company():
-    return render_template('company.html')
+    if request.method == 'GET':
+        return render_template('company.html')
+    if request.method == 'POST':
+        if os.path.exists(os.path.join(DATA_DIR, "symbols.pickle")):
+            with open(os.path.join(DATA_DIR, "symbols.pickle"), "rb") as f:
+                symbols = pickle.load(f)
+        return render_template('industry.html', data=symbols)
+        # symbol = symbols[0]
+        # return jsonify(pd.read_csv(os.path.join(DATA_DIR, "stock_data/{}.csv").format(symbol)).to_dict('list'))
 
 
 class Scheduler(threading.Thread):

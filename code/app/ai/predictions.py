@@ -1,6 +1,6 @@
-#warning suppression
-import warnings  
-with warnings.catch_warnings():  
+import warnings
+
+with warnings.catch_warnings():
     warnings.filterwarnings('ignore', category=DeprecationWarning)
     warnings.filterwarnings('ignore', category=FutureWarning)
     warnings.filterwarnings('ignore', category=RuntimeWarning)
@@ -14,7 +14,7 @@ with warnings.catch_warnings():
 
 os.chdir('../')
 sys.path.append(os.getcwd())
-import database.data
+import data.data
 
 tf.compat.v1.enable_eager_execution()
 
@@ -25,8 +25,7 @@ def load_data(symbol):
         df = pd.read_csv(f'database/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
     else:
         print(f'{symbol} Data not found\nTrying to download...')
-        
-####        MODIFIED CODE FROM 'data.py'        ####
+
         os.environ['TIINGO_API_KEY'] = '31db9807b1b41a9e85229876c01472b6a4f263ed'
         try:
             df = web.get_data_tiingo(symbol, api_key=os.getenv('TIINGO_API_KEY'))
@@ -53,9 +52,9 @@ def make_model(symbol, x, y, val_x, val_y):
 
 
 if __name__ == "__main__":
-    
+
     start = time.time()
-    
+
     if not os.path.exists('ai/models'):
         os.mkdir('ai/models')
     if not os.path.exists('database/stock_data'):
