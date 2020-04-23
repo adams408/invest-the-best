@@ -36,38 +36,22 @@
         }
     </script>
     <script type="text/javascript">
-        async function renderBasic() {
-            const response = await fetch('/company');
-            const jsonData = await response.json();
-            const close = jsonData['close'];
-            const high = jsonData['high'];
-            const low = jsonData['low'];
-            const open = jsonData['open'];
+        // async function renderBasic() {
+        //     const response = await fetch('/company');
+        //     const jsonData = await response.json();
+        //
+        //     const date = jsonData['date'];
+        //     const close = jsonData['close'];
+        //
+        //     let x = [];
+        //     for (let i = 0; i < room.length; i++) {
+        //         x.push([date[i], close[i]]);
+        //     }
+        // }
 
-            let x = [];
-            for (let i = 0; i < room.length; i++) {
-                x.push([open[i], close[i]]);
-            }
-
-            google.charts.load('current', {packages: ['corechart', 'line']});
-            google.charts.setOnLoadCallback(drawBasic);
-
-            function drawBasic() {
-                var data = new google.visualization.DataTable();
-                data.addColumn('number', 'X');
-                data.addColumn('number', 'Dogs');
-                data.addRows(x);
-
-                var options = {hAxis: {title: 'Time'}, vAxis: {title: 'Popularity'}};
-                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-                chart.draw(data, options);
-            }
-        }
-
-        renderBasic()
+        // renderBasic()
     </script>
     <title>Invest The Best</title>
-    <script>var meta = meta</script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -86,12 +70,31 @@
             <li>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search for a Company" aria-label="Search">
-                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit" href="company.html">Search</a>
+                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/company">Search</a>
                 </form>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose an Company</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="menu">
+                    <a class="dropdown-item" href="/company">Food</a>
+                    <a class="dropdown-item" href="/company">Games</a>
+                    <a class="dropdown-item" href="/company">Cell Phones</a>
+                </div>
+                <script>
+                    var meta = '{{ meta }}';
+                    meta.forEach(function (company) {
+                        var tag = document.createElement("a");
+                        var text = document.createTextNode(company.name);
+                        tag.appendChild(text);
+                        tag.className = "dropdown-item";
+                        tag.href = "/company";
+                        document.getElementById("menu").appendChild(tag);
+                    });
+                </script>
             </li>
         </ul>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
-<!--        <a href="#" onclick="signOut();">Sign out</a>-->
+        <!--        <a href="#" onclick="signOut();">Sign out</a>-->
         <script>
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
@@ -105,10 +108,11 @@
 <!--Name of company in BLANK places-->
 <div class="jumbotron">
     <h1 class="display-4">FINANCE GOONS</h1>
-    <p class="lead">COMPANY</p>
+        <p class="lead" id="name">{{ meta[0].name }}</p>
+    <!--        <p class="lead">COMPANY</p>-->
     <hr class="my-4">
-<!--    <p>BLANK is currently doing BLANK.</p>-->
-<!--    <p>BLANK is predicted to be doing BLANK soon.</p>-->
+        <p>{{ meta[0].description }}</p>
+    <!--    <p>BLANK is predicted to be doing BLANK soon.</p>-->
 </div>
 <!--Symbol for company-->
 <!--<div id="symbol">-->
