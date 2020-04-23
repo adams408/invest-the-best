@@ -1,125 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-      var today = new Date();
+        function drawChart() {
+            var today = new Date();
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Stocks'],
+                [today.getFullYear() - 6, 800],
+                [today.getFullYear() - 5, 700],
+                [today.getFullYear() - 4, 750],
+                [today.getFullYear() - 3, 800],
+                [today.getFullYear() - 2, 900],
+                [today.getFullYear() - 1, 1000],
+                [today.getFullYear(), 1030]
+            ]);
 
-      var data = google.visualization.arrayToDataTable([
-        ['Year', 'Stocks'],
-        [today.getFullYear()-6,  800],
-        [today.getFullYear()-5,  700],
-        [today.getFullYear()-4,  750],
-        [today.getFullYear()-3,  800],
-        [today.getFullYear()-2,  900],
-        [today.getFullYear()-1,  1000],
-        [today.getFullYear(),  1030]
-      ]);
+            var options = {
+                title: 'Company Performance',
+                hAxis: {title: 'Year', titleTextStyle: {color: '#333'}},
+                vAxis: {minValue: 0}
+            };
 
-      var options = {
-        title: 'Company Performance',
-        hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
-        vAxis: {minValue: 0}
-      };
-
-      var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-  </script>
-  <title>Invest The Best</title>
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+    <title>Invest The Best</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Invest The Best</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-    <!--Javascript for search button-->
-    <ul class="navbar-nav mr-auto">
-      <li>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Find for a Company" aria-label="Search">
-          <a class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/industry/company">Search</a>
-        </form>
-      </li>
-    </ul>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <a href="#" onclick="signOut();">Sign out</a>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
-  </div>
+    <a class="navbar-brand" href="#">Invest The Best</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home<span class="sr-only"> (current)</span></a>
+            </li>
+        </ul>
+        <!--Javascript for search button-->
+        <ul class="navbar-nav mr-auto">
+            <li>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Find for a Company" aria-label="Search">
+                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/industry/company">Search</a>
+                </form>
+            </li>
+        </ul>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!--        <a href="#" onclick="signOut();">Sign out</a>-->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+        </script>
+    </div>
 </nav>
-<!--Name of company in BLANK places-->
 <div class="jumbotron">
-  <h1 class="display-4">FINANCE GOONS</h1>
-  <p class="lead">COMPANY</p>
-  <hr class="my-4">
-  <p>BLANK is currently doing BLANK.</p>
-  <p>BLANK is predicted to be doing BLANK soon.</p>
-</div>
-<!--Symbol for company-->
-<div id="graph">
-  <div id="chart_div" style="width: 100%; height: 500px;"></div>
+    <h1 class="display-4">FINANCE GOONS</h1>
+    <p class="lead">{{ meta[0].name }}</p>
+    <hr class="my-4">
+    <p>{{ meta[0].description }}</p>
+    <!--    <p>BLANK is predicted to be doing BLANK soon.</p>-->
 </div>
 <!--Graph for company-->
-<div id="symbol">
-  <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
+<div id="graph">
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
 </div>
-
-
+<!--&lt;!&ndash;Symbol for company&ndash;&gt;-->
+<!--<div id="symbol">-->
+<!--    <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">-->
+<!--</div>-->
 <script type="text/javascript">
-  async function renderBasic() {
-    const response = await fetch('api/company${symbol}');
-    const jsonData = await response.json();
+    async function renderBasic() {
+        const response = await fetch('api/company${symbol}');
+        const jsonData = await response.json();
 
-    const close = jsonData['close'];
-    const high = jsonData['high'];
-    const low = jsonData['low'];
-    const open = jsonData['open'];
+        const close = jsonData['close'];
+        const high = jsonData['high'];
+        const low = jsonData['low'];
+        const open = jsonData['open'];
 
-    let x = [];
-    for (let i = 0; i < room.length; i++) {
-      x.push([open[i], close[i]]);
+        let x = [];
+        for (let i = 0; i < room.length; i++) {
+            x.push([open[i], close[i]]);
+        }
+
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        google.charts.setOnLoadCallback(drawBasic);
+
+        function drawBasic() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'X');
+            data.addColumn('number', 'Dogs');
+            data.addRows(x);
+
+            var options = {hAxis: {title: 'Time'}, vAxis: {title: 'Popularity'}};
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
     }
 
-    google.charts.load('current', {packages: ['corechart', 'line']});
-    google.charts.setOnLoadCallback(drawBasic);
-
-    function drawBasic() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('number', 'X');
-      data.addColumn('number', 'Dogs');
-      data.addRows(x);
-
-      var options = {hAxis: {title: 'Time'}, vAxis: {title: 'Popularity'}};
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-  }
-  renderBasic()
+    renderBasic()
 </script>
 <!-- jQuery first, then Popper.js, then Bootstrap js -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
