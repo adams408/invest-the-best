@@ -12,10 +12,9 @@
     <script>
         $(document).ready(function () {
             var dropdown = $("#dropdown-menu");
-            <!-- Still work on getting industry names chosen thenn will array with list of companies from that industry-->
-            var cars = ["Saab", "Volvo", "BMW"];
-            for (i in cars) {
-                dropdown.append("<a class=\"dropdown-item\" href=\"/industry/company?company=" + cars[i] + "/\" >" + cars[i] + "</a>");
+            var companies = ['{{ meta.name }}'];
+            for (i in companies) {
+                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i] + "/\">" + companies[i] + "</a>");
             }
         });
     </script>
@@ -83,7 +82,6 @@
 <div class="jumbotron">
     <h1 class="display-4">INDUSTRY</h1>
     <hr class="my-4">
-    <!--  <p id="name" ></p>-->
     <!--  <p>BLANK is predicted to be doing BLANK soon.</p>-->
 </div>
 <img src="../static/invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">

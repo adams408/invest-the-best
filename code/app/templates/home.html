@@ -12,15 +12,37 @@
     <script>
         $(document).ready(function () {
             var dropdown = $("#dropdown-menu");
-            var industries = ["3M Company", "Games", "Phones"];
-            for (i in industries) {
-                dropdown.append("<a class=\"dropdown-item\" href=\"/industry?industry=" + industries[i] + "/\">" + industries[i] + "</a>");
+            var companies = ['{{ meta.name }}'];
+            for (i in companies) {
+                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i] + "/\">" + companies[i] + "</a>");
             }
+        });
+    </script>
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('myParam');
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        var foo = getParameterByName('home');
+
+        $(document).ready(function () {
+            var name = $("#name");
+            foo.replace("/", "")
+            name.append("The " + foo + " industry is currently doing good.")
         });
     </script>
     <title>Invest The Best</title>
 </head>
-<body>
+<body id="home">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Invest The Best</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

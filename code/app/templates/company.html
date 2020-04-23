@@ -12,10 +12,9 @@
     <script>
         $(document).ready(function () {
             var dropdown = $("#dropdown-menu");
-            <!-- Still work on getting industry names chosen thenn will array with list of companies from that industry-->
-            var cars = ["Saab", "Volvo", "BMW"];
-            for (i in cars) {
-                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + cars[i] + "/\" >" + cars[i] + "</a>");
+            var companies = ['{{ meta.name }}'];
+            for (i in companies) {
+                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i] + "/\">" + companies[i] + "</a>");
             }
         });
     </script>
@@ -33,12 +32,12 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        var foo = getParameterByName('industry');
+        var foo = getParameterByName('company');
 
         $(document).ready(function () {
             var name = $("#name");
             foo.replace("/", "")
-            name.append("The " + foo + " industry is currently doing good.")
+            name.append("The " + foo + " company is currently doing good.")
         });
     </script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -71,7 +70,7 @@
     </script>
     <title>Invest The Best</title>
 </head>
-<body>
+<body id="company">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Invest The Best</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -112,15 +111,9 @@
     <h1 class="display-4">{{ meta[0].name }}</h1>
     <hr class="my-4">
     <p>{{ meta[0].description }}</p>
-    <!--    <p>BLANK is predicted to be doing BLANK soon.</p>-->
 </div>
-<!--Graph for company-->
 <div id="graph">
     <div id="chart_div" style="width: 100%; height: 500px;"></div>
 </div>
-<!--&lt;!&ndash;Symbol for company&ndash;&gt;-->
-<!--<div id="symbol">-->
-<!--    <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">-->
-<!--</div>-->
 </body>
 </html>
