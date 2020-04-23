@@ -63,10 +63,10 @@ if __name__ == "__main__":
         os.mkdir('ai/test_images')
     if not os.path.exists('ai/predictions'):
         os.mkdir('ai/predictions')
-    if not os.path.exists("database/symbols.pickle"):
+    if not os.path.exists("database/symbols.pkl"):
         symbols = data.get_symbols()
     else:
-        with open("database/symbols.pickle", "rb") as f:
+        with open("database/symbols.pkl", "rb") as f:
             symbols = pickle.load(f)
     if len(os.listdir('database/stock_data')) == 0:
         data.get_data()

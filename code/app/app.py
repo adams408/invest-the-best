@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
@@ -25,14 +25,31 @@ def industry():
         # return render_template('industry.html', data=data)
 
 
-@app.route('/industry/company', methods=['GET', 'POST'])
+@app.route('/company', methods=['GET', 'POST'])
 def company():
     if request.method == 'GET':
-        return render_template('company.html')
-    if request.method == 'POST':
-        if os.path.exists(os.path.join(DATA_DIR, "symbols.pickle")):
-            with open(os.path.join(DATA_DIR, "symbols.pickle"), "rb") as f:
+        if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
+            with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
                 symbols = pickle.load(f)
+            # print(symbols)
+
+        company_meta = []
+        for symbol in symbols:
+            if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
+                if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
+                    with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
+                        meta = pickle.load(f)
+                    print(meta)
+                    company_meta.append(meta)
+
+        # return render_template('company.html', meta=company_meta)
+        return render_template('company.html')
+
+    if request.method == 'POST':
+        if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
+            with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
+                symbols = pickle.load(f)
+            print(symbols)
         return render_template('industry.html', data=symbols)
         # symbol = symbols[0]
         # return jsonify(pd.read_csv(os.path.join(DATA_DIR, "stock_data/{}.csv").format(symbol)).to_dict('list'))
