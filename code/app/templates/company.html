@@ -6,29 +6,40 @@
   <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+          integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+          integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+          crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var today = new Date();
-
+      <!-- Make a 2-D array with [][0] as the date annd [][1] as the stock-->
       var data = google.visualization.arrayToDataTable([
         ['Year', 'Stocks'],
-        [today.getFullYear()-6,  800],
-        [today.getFullYear()-5,  700],
-        [today.getFullYear()-4,  750],
-        [today.getFullYear()-3,  800],
-        [today.getFullYear()-2,  900],
-        [today.getFullYear()-1,  1000],
-        [today.getFullYear(),  1030]
+        [today.getFullYear() - 6, 800],
+        [today.getFullYear() - 5, 700],
+        [today.getFullYear() - 4, 750],
+        [today.getFullYear() - 3, 800],
+        [today.getFullYear() - 2, 900],
+        [today.getFullYear() - 1, 1000],
+        [today.getFullYear(), 1030]
       ]);
 
       var options = {
         title: 'Company Performance',
-        hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+        hAxis: {title: 'Year', titleTextStyle: {color: '#333'}},
         vAxis: {minValue: 0}
       };
 
@@ -41,7 +52,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Invest The Best</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -86,7 +98,8 @@
 </div>
 <!--Graph for company-->
 <div id="symbol">
-  <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
+  <img src="invest.png" alt="Stocks Graph"
+       style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">
 </div>
 
 
@@ -119,12 +132,10 @@
       chart.draw(data, options);
     }
   }
+
   renderBasic()
 </script>
 <!-- jQuery first, then Popper.js, then Bootstrap js -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+
 </body>
 </html>
