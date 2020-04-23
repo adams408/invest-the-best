@@ -1,4 +1,3 @@
-import pandas as pd
 import os
 import pickle
 import threading
@@ -54,7 +53,7 @@ def company():
     #                     meta = pickle.load(f)
     #                 meta_data.append(meta)
     #
-    #     return render_template('company.html', meta=meta_data[0])
+    #     return render_template('company.html', meta=meta_data)
 
 
 class Scheduler(threading.Thread):
