@@ -21,8 +21,8 @@ tf.compat.v1.enable_eager_execution()
 
 def load_data(symbol):
     df = pd.DataFrame()
-    if os.path.exists(f'database/stock_data/{symbol}.csv'):
-        df = pd.read_csv(f'database/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
+    if os.path.exists(f'data/stock_data/{symbol}.csv'):
+        df = pd.read_csv(f'data/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
     else:
         print(f'{symbol} Data not found\nTrying to download...')
 
@@ -31,7 +31,7 @@ def load_data(symbol):
             df = web.get_data_tiingo(symbol, api_key=os.getenv('TIINGO_API_KEY'))
             df.reset_index(inplace=True)
             df.set_index('date', inplace=True)
-            df.to_csv(f'database/stock_data/{symbol}.csv')
+            df.to_csv(f'data/stock_data/{symbol}.csv')
             df.drop(columns=['symbol', 'volume', 'adjClose', 'adjHigh', 'adjLow', 'adjOpen', 'adjVolume', 'divCash', 'splitFactor'], inplace=True)
         except:
             pass
@@ -57,18 +57,18 @@ if __name__ == "__main__":
 
     if not os.path.exists('ai/models'):
         os.mkdir('ai/models')
-    if not os.path.exists('database/stock_data'):
-        os.mkdir('database/stock_data')
+    if not os.path.exists('data/stock_data'):
+        os.mkdir('data/stock_data')
     if not os.path.exists('ai/test_images'):
         os.mkdir('ai/test_images')
     if not os.path.exists('ai/predictions'):
         os.mkdir('ai/predictions')
-    if not os.path.exists("database/symbols.pkl"):
+    if not os.path.exists("data/symbols.pkl"):
         symbols = data.get_symbols()
     else:
-        with open("database/symbols.pkl", "rb") as f:
+        with open("data/symbols.pkl", "rb") as f:
             symbols = pickle.load(f)
-    if len(os.listdir('database/stock_data')) == 0:
+    if len(os.listdir('data/stock_data')) == 0:
         data.get_data()
 
     for symbol in symbols:
