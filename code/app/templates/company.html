@@ -79,8 +79,7 @@
     </div>
 </nav>
 <div class="jumbotron">
-    <h1 class="display-4">FINANCE GOONS</h1>
-    <p class="lead">{{ meta[0].name }}</p>
+    <h1 class="display-4">{{ meta[0].name }}</h1>
     <hr class="my-4">
     <p>{{ meta[0].description }}</p>
     <!--    <p>BLANK is predicted to be doing BLANK soon.</p>-->
@@ -93,38 +92,6 @@
 <!--<div id="symbol">-->
 <!--    <img src="invest.png" alt="Stocks Graph" style="width:600px;height:600px;display: block;margin-left: auto;margin-right: auto;">-->
 <!--</div>-->
-<script type="text/javascript">
-    async function renderBasic() {
-        const response = await fetch('api/company${symbol}');
-        const jsonData = await response.json();
-
-        const close = jsonData['close'];
-        const high = jsonData['high'];
-        const low = jsonData['low'];
-        const open = jsonData['open'];
-
-        let x = [];
-        for (let i = 0; i < room.length; i++) {
-            x.push([open[i], close[i]]);
-        }
-
-        google.charts.load('current', {packages: ['corechart', 'line']});
-        google.charts.setOnLoadCallback(drawBasic);
-
-        function drawBasic() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('number', 'X');
-            data.addColumn('number', 'Dogs');
-            data.addRows(x);
-
-            var options = {hAxis: {title: 'Time'}, vAxis: {title: 'Popularity'}};
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
-    }
-
-    renderBasic()
-</script>
 <!-- jQuery first, then Popper.js, then Bootstrap js -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

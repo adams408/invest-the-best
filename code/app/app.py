@@ -2,7 +2,7 @@ import os
 import pickle
 import threading
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -12,7 +12,19 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
+        with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
+            symbols = pickle.load(f)
+
+    meta_data = []
+    for symbol in symbols:
+        if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
+            if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
+                with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
+                    meta = pickle.load(f)
+                meta_data.append(meta)
+
+    return render_template('home.html', meta=meta_data)
 
 
 @app.route('/industry')
@@ -59,5 +71,4 @@ class Scheduler(threading.Thread):
 
 
 if __name__ == '__main__':
-    # Scheduler().start()
     app.run(debug=True, host='127.0.0.1', port=8000)
