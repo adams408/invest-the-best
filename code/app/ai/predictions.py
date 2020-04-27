@@ -21,20 +21,12 @@ tf.compat.v1.enable_eager_execution()
 
 def load_data(symbol):
     df = pd.DataFrame()
-    if os.path.exists(f'data/stock_data/{symbol}.csv'):
-        df = pd.read_csv(f'data/stock_data/{symbol}.csv', index_col='date', usecols=[0, 2, 3, 4, 5])
-    else:
-        print(f'{symbol} Data not found\nTrying to download...')
-
-        os.environ['TIINGO_API_KEY'] = '31db9807b1b41a9e85229876c01472b6a4f263ed'
-        try:
-            df = web.get_data_tiingo(symbol, api_key=os.getenv('TIINGO_API_KEY'))
-            df.reset_index(inplace=True)
-            df.set_index('date', inplace=True)
-            df.to_csv(f'data/stock_data/{symbol}.csv')
-            df.drop(columns=['symbol', 'volume', 'adjClose', 'adjHigh', 'adjLow', 'adjOpen', 'adjVolume', 'divCash', 'splitFactor'], inplace=True)
-        except:
-            pass
+    if os.path.exists(f'data/stock_data/{symbol}/{symbol}.pkl'):
+        df_ = pd.read_pickle(f'data/stock_data/{symbol}/{symbol}.pkl')
+        df = pd.DataFrame(df_)
+        df.set_index('date', inplace=True)
+        df.drop(columns=['volume', 'adjClose', 'adjHigh', 'adjLow', 'adjOpen', 'adjVolume', 'divCash', 'splitFactor'], inplace=True)
+        
     return df
 
 
@@ -79,7 +71,9 @@ if __name__ == "__main__":
         if df.shape[0] < 300:
             print(f'{symbol} does not have enough database')
             continue
-        date_range = df.index.tolist()
+##        date = pd.to_datetime(df.index).to_frame(index=False)
+        date = df.index.astype('datetime64[ns]')
+        
         normalizer = preprocessing.MinMaxScaler()
         df = normalizer.fit_transform(df)
 
@@ -99,7 +93,9 @@ if __name__ == "__main__":
             predict = model.predict(np.array([df[-1]]))
         except:
             print(sys.exc_info[0])
-        days = 100
+            
+        days = 99
+        pred_dates = pd.date_range(start=date[-1], periods=days+1)
 
         for x in range(days):
             predict = np.append(predict, model.predict(np.array([predict[x]])), axis=0)
@@ -107,11 +103,16 @@ if __name__ == "__main__":
         df = normalizer.inverse_transform(df)
         predict = normalizer.inverse_transform(predict)
 
-        t = len(date_range)
-        plt.plot(range(t), df[:, -1], label='real')
-        plt.plot(range(t - 1, t + days), predict[:, :], label='pred')
-        plt.savefig(f'ai/test_images/{symbol}.png')
+        predictions_ = pd.DataFrame(predict,columns=['close','high','low','open'])
+        pred_dates = pred_dates.to_frame(index=False).rename(columns={0:'date'})
+        
+        predictions = pred_dates.join(predictions_)
+        predictions.drop(columns=['high','low','open'],inplace=True)
+                
+        with open(f'ai/predictions/{symbol}.pkl','wb') as f:
+            pickle.dump(predictions.to_dict('records'),f)
 
+        plt.savefig(f'ai/test_images/{symbol}.png')
         plt.clf()
         np.savetxt(f'ai/predictions/{symbol}.csv', predict, delimiter=',', header='close,high,low,open', comments='')
         print(f'finished {symbol}')
