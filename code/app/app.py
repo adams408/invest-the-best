@@ -63,14 +63,14 @@ def graph():
             data_symbol = meta.get('ticker')
     with open(os.path.join(DATA_DIR, 'stock_data/{}/{}.pkl'.format(data_symbol, data_symbol)), "rb") as f:
         data = pickle.load(f)
-    # with open(os.path.join(DATA_DIR, 'prediction_data/{}/{}.pkl'.format(data_symbol, data_symbol)), "rb") as f:
-    #     prediction = pickle.load(f)
+    with open(os.path.join(DATA_DIR, 'prediction_data/{}.pkl'.format(data_symbol)), "rb") as f:
+        prediction = pickle.load(f)
 
     x = [['Date', 'Stock Price']]
     for day in data:
         x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
-    # for day in prediction:
-    #     x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
+    for day in prediction:
+        x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
 
     return jsonify({'x': x})
 

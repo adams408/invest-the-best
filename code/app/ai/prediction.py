@@ -103,7 +103,7 @@ if __name__ == "__main__":
             prediction = dates.join(pd.DataFrame(predict, columns=['close', 'high', 'low', 'open']))
             prediction.drop(columns=['high', 'low', 'open'], inplace=True)
 
-            with open(f'ai/prediction_data/{symbol}/{symbol}.pkl', "wb") as f:
+            with open(f'ai/prediction_data/{symbol}.pkl', "wb") as f:
                 pickle.dump(prediction.to_dict('records'), f)
 
             # plt.savefig(f'ai/test_images/{symbol}.png')
