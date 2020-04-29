@@ -15,7 +15,7 @@
         $(document).ready(function () {
             var companies = "{{ names }}".replace(/\[|]|&#39;/g, "").split(",");
             for (i in companies) {
-                $("#dropdown").append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i].trim() + "/\">" + companies[i] + "</a>");
+                $("#dropdown").append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i].trim() + "\">" + companies[i] + "</a>");
             }
         });
     </script>
@@ -33,17 +33,14 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        var foo = getParameterByName('company');
         $(document).ready(function () {
-            var name = $("#name");
-            console.log(name);
-            foo.replace("/", "");
+            var name = getParameterByName('company').replace("/", "");
             $.ajax({
                 data: {
-                    company_name: name
+                    name: name
                 },
                 type: 'POST',
-                url: '/name'
+                url: '/select'
             }).done(function (data) {
                 $('#name').text(data.name);
                 $('#description').text(data.description);
@@ -51,31 +48,33 @@
         });
     </script>
     <script>
-        google.charts.load('current', {'packages': ['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        $(document).ready(function () {
+            var name = getParameterByName('company').replace("/", "");
+            $.ajax({
+                    data: {
+                        name: name
+                    },
+                    type: 'POST',
+                    url: '/graph'
+            }).done(function (x) {
+                google.charts.load('current', {'packages': ['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-            var today = new Date();
-            var data = google.visualization.arrayToDataTable([
-                ['Year', 'Stocks'],
-                [today.getFullYear() - 6, 800],
-                [today.getFullYear() - 5, 700],
-                [today.getFullYear() - 4, 750],
-                [today.getFullYear() - 3, 800],
-                [today.getFullYear() - 2, 900],
-                [today.getFullYear() - 1, 1000],
-                [today.getFullYear(), 1030]
-            ]);
+                function drawChart() {
+                    var today = new Date();
+                    var data = google.visualization.arrayToDataTable(x.x);
 
-            var options = {
-                title: 'Company Performance',
-                hAxis: {title: 'Year', titleTextStyle: {color: '#333'}},
-                vAxis: {minValue: 0}
-            };
+                    var options = {
+                        title: name + ' Performance',
+                        hAxis: {title: 'Data', titleTextStyle: {color: '#333'}},
+                        vAxis: {minValue: 0}
+                    };
 
-            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
+                    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                }
+            });
+        });
     </script>
 </head>
 <body id="company">
