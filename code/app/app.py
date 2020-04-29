@@ -75,13 +75,13 @@ def graph():
     return jsonify({'x': x})
 
 
-class Scheduler(threading.Thread):
-
-    def __init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-        exec(open('data/data.py').read())
+# class Scheduler(threading.Thread):
+#
+#     def __init__(self):
+#         threading.Thread.__init__(self)
+#
+#     def run(self):
+#         exec(open('data/data.py').read())
 
 
 if __name__ == '__main__':

@@ -1,13 +1,12 @@
 import os
 import requests
-import bs4 as bs
+import bs4
 import pickle
 
 
 def get_symbols():
     resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
-    soup = bs.BeautifulSoup(resp.text, 'lxml')
-    table = soup.find('table', {'class': 'wikitable sortable'})
+    table = bs4.BeautifulSoup(resp.text, 'lxml').find('table', {'class': 'wikitable sortable'})
 
     symbols = []
     for row in table.findAll('tr')[1:]:
