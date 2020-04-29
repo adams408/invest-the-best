@@ -2,7 +2,7 @@ import os
 import pickle
 import threading
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -10,16 +10,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
-def get_symbols():
+def get_meta_data():
     if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
         with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
             symbols = pickle.load(f)
-    return symbols
 
-
-def get_meta_data():
     meta_data = []
-    for symbol in get_symbols():
+    for symbol in symbols:
         if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
             if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
                 with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
@@ -47,7 +44,14 @@ def industry():
 
 @app.route('/company')
 def company():
-    return render_template('company.html', names=get_names(), meta=get_meta_data())
+    return render_template('company.html', names=get_names())
+
+
+@app.route('/name', methods=['POST'])
+def get_meta():
+    for meta in get_meta_data():
+        if meta.get('name') == request.form['company_name']:
+            return jsonify(meta)
 
 
 class Scheduler(threading.Thread):
@@ -60,4 +64,4 @@ class Scheduler(threading.Thread):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=8000)
+    app.run()
