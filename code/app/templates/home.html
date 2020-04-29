@@ -12,9 +12,9 @@
     <script>
         $(document).ready(function () {
             var dropdown = $("#dropdown-menu");
-            var companies = ['{{ meta.name }}'];
+            var companies = "{{ names }}".replace(/\[|]|&#39;/g, "").split(",");
             for (i in companies) {
-                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i] + "/\">" + companies[i] + "</a>");
+                dropdown.append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i].trim() + "/\">" + companies[i] + "</a>");
             }
         });
     </script>

@@ -10,55 +10,44 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
-@app.route('/')
-def home():
+def get_symbols():
     if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
         with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
             symbols = pickle.load(f)
+    return symbols
 
+
+def get_meta_data():
     meta_data = []
-    for symbol in symbols:
+    for symbol in get_symbols():
         if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
             if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
                 with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
                     meta = pickle.load(f)
                 meta_data.append(meta)
+    return meta_data
 
-    return render_template('home.html', meta=meta_data)
+
+def get_names():
+    names = []
+    for meta in get_meta_data():
+        names.append(meta.get('name'))
+    return names
+
+
+@app.route('/')
+def home():
+    return render_template('home.html', names=get_names())
 
 
 @app.route('/industry')
 def industry():
-    if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
-        with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
-            symbols = pickle.load(f)
-
-    meta_data = []
-    for symbol in symbols:
-        if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-            if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-                with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
-                    meta = pickle.load(f)
-                meta_data.append(meta)
-
-    return render_template('industry.html', meta=meta_data)
+    return render_template('industry.html', names=get_names())
 
 
 @app.route('/company')
 def company():
-    if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
-        with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
-            symbols = pickle.load(f)
-
-    meta_data = []
-    for symbol in symbols:
-        if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-            if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-                with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
-                    meta = pickle.load(f)
-                meta_data.append(meta)
-
-    return render_template('company.html', meta=meta_data)
+    return render_template('company.html', names=get_names(), meta=get_meta_data())
 
 
 class Scheduler(threading.Thread):
