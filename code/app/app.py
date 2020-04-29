@@ -12,14 +12,14 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 
 def meta_data():
     data = []
-    if os.path.exists(os.path.join(DATA_DIR, "symbols.pkl")):
-        with open(os.path.join(DATA_DIR, "symbols.pkl"), "rb") as f:
+    if os.path.exists("data/symbols.pkl"):
+        with open("data/symbols.pkl", "rb") as f:
             symbols = pickle.load(f)
 
     for symbol in symbols:
-        if os.path.exists(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))) and not os.path.isfile(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-            if os.listdir(os.path.join(DATA_DIR, 'stock_data/{}'.format(symbol))):
-                with open(os.path.join(DATA_DIR, 'stock_data/{}/meta.pkl'.format(symbol)), "rb") as f:
+        if os.path.exists('data/stock_data/{}'.format(symbol)) and not os.path.isfile('data/stock_data/{}'.format(symbol)):
+            if os.listdir('data/stock_data/{}'.format(symbol)):
+                with open('data/stock_data/{}/meta.pkl'.format(symbol), "rb") as f:
                     meta = pickle.load(f)
                 data.append(meta)
 
@@ -61,16 +61,18 @@ def graph():
     for meta in meta_data():
         if meta.get('name') == request.form['name']:
             data_symbol = meta.get('ticker')
-    with open(os.path.join(DATA_DIR, 'stock_data/{}/{}.pkl'.format(data_symbol, data_symbol)), "rb") as f:
-        data = pickle.load(f)
-    with open(os.path.join(DATA_DIR, 'prediction_data/{}.pkl'.format(data_symbol)), "rb") as f:
-        prediction = pickle.load(f)
 
     x = [['Date', 'Stock Price']]
+    with open('data/stock_data/{}/{}.pkl'.format(data_symbol, data_symbol), "rb") as f:
+        data = pickle.load(f)
     for day in data:
         x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
-    for day in prediction:
-        x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
+
+    if os.path.exists('ai/prediction_data/{}.pkl'.format(data_symbol)):
+        with open('ai/prediction_data/{}.pkl'.format(data_symbol), "rb") as f:
+            prediction = pickle.load(f)
+        for day in prediction:
+            x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
 
     return jsonify({'x': x})
 
