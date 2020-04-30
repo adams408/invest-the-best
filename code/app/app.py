@@ -72,7 +72,7 @@ def graph():
         with open('ai/predictions/{}.pkl'.format(data_symbol), "rb") as f:
             prediction = pickle.load(f)
         for day in prediction:
-            x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
+            x.append([day.get('date'), day.get('close')])
 
     return jsonify({'x': x})
 
@@ -87,4 +87,4 @@ def graph():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=8000)
+    app.run(debug=True, host='127.0.0.1',port=8000)
