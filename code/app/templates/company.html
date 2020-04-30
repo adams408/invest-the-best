@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>
-    .scrollable-menu {
-    height: auto;
-    max-height: 400px;
-    overflow-x: hidden;
-  }
-  </style>
     <meta charset="utf-8">
     <title>Invest The Best</title>
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -83,15 +76,22 @@
                 }
             });
         });
-
     </script>
     <script>
-        function change() {
-          var x = document.getElementById("search box").value;
-          console.log(x);
-
-          document.getElementById("search").href="/company?company=" + x + "/";
-        }
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+                $.ajax({
+                    data : {
+                        name: $('#searchInput').val()
+                    },
+                    type : 'POST',
+                    url : '/search'
+                }).done(function(data) {
+                    document.location.href = "/company?company=" + data.name
+                });
+                event.preventDefault();
+            });
+        });
     </script>
 </head>
 <body id="company">
@@ -109,13 +109,13 @@
         <ul class="navbar-nav mr-auto">
             <li>
                 <form class="form-inline my-2 my-lg-0">
-                    <input id="search box"class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <a id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="change()">Search</a>
+                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select a Company</a>
-                <div id="dropdown" class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
+                <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
                 </div>
             </li>
         </ul>

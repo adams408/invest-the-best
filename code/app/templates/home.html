@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <style>
-      .scrollable-menu {
-        height: auto;
-        max-height: 400px;
-        overflow-x: hidden;
-      }
-    </style>
     <meta charset="utf-8">
     <title>Invest The Best</title>
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -18,7 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
     <script>
         $(document).ready(function () {
             var companies = "{{ names }}".replace(/\[|]|&#39;/g, "").split(",");
@@ -26,16 +17,22 @@
                 $("#dropdown").append("<a class=\"dropdown-item\" href=\"/company?company=" + companies[i].trim() + "/\">" + companies[i] + "</a>");
             }
         });
-
-
     </script>
     <script>
-        function change() {
-          var x = document.getElementById("search box").value;
-          console.log(x);
-
-          document.getElementById("search").href="/company?company=" + x + "/";
-        }
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+                $.ajax({
+                    data : {
+                        name: $('#searchInput').val()
+                    },
+                    type : 'POST',
+                    url : '/search'
+                }).done(function(data) {
+                    document.location.href = "/company?company=" + data.name
+                });
+                event.preventDefault();
+            });
+        });
     </script>
 </head>
 <body id="home">
@@ -53,14 +50,14 @@
         <ul class="navbar-nav mr-auto">
             <li>
                 <form class="form-inline my-2 my-lg-0">
-                    <input id="search box" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <a id="search"class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="change()">Search</a>
+                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select a Company</a>
-                <ul id="dropdown" class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
-                </ul>
+                <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                </div>
             </li>
         </ul>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
