@@ -77,6 +77,13 @@ def graph():
     return jsonify({'x': x})
 
 
+@app.route('/search', methods=['POST'])
+def search():
+    for meta in meta_data():
+        if meta.get('name') == request.form['name']:
+            return jsonify({'name': meta.get('name')})
+
+
 # class Scheduler(threading.Thread):
 #
 #     def __init__(self):
@@ -87,4 +94,4 @@ def graph():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1',port=8000)
+    app.run(debug=True, host='127.0.0.1')

@@ -18,6 +18,22 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+                $.ajax({
+                    data : {
+                        name: $('#searchInput').val()
+                    },
+                    type : 'POST',
+                    url : '/search'
+                }).done(function(data) {
+                    document.location.href = "/company?company=" + data.name
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
 </head>
 <body id="home">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,8 +50,8 @@
         <ul class="navbar-nav mr-auto">
             <li>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/company">Search</a>
+                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
             <li class="nav-item dropdown">
