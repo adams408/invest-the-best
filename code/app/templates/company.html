@@ -52,11 +52,11 @@
         $(document).ready(function () {
             var name = getParameterByName('company').replace("/", "");
             $.ajax({
-                    data: {
-                        name: name
-                    },
-                    type: 'POST',
-                    url: '/graph'
+                data: {
+                    name: name
+                },
+                type: 'POST',
+                url: '/graph'
             }).done(function (x) {
                 google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
@@ -78,15 +78,15 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            $('form').on('submit', function(event) {
+        $(document).ready(function () {
+            $('form').on('submit', function (event) {
                 $.ajax({
-                    data : {
+                    data: {
                         name: $('#searchInput').val()
                     },
-                    type : 'POST',
-                    url : '/search'
-                }).done(function(data) {
+                    type: 'POST',
+                    url: '/search'
+                }).done(function (data) {
                     document.location.href = "/company?company=" + data.name
                 });
                 event.preventDefault();
@@ -115,7 +115,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select a Company</a>
-                <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown" style="height:auto;max-height:400px;overflow-x:hidden;">
                 </div>
             </li>
         </ul>
