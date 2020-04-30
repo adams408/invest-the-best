@@ -32,7 +32,8 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
-
+    </script>
+    <script>
         $(document).ready(function () {
             var name = getParameterByName('company').replace("/", "");
             $.ajax({

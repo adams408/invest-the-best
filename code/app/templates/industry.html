@@ -31,7 +31,8 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
-
+    </script>
+    <script>
         $(document).ready(function () {
             var name = getParameterByName('industry').replace("/", "");
             $("#name").append(name)
@@ -92,7 +93,7 @@
     </div>
 </nav>
 <div class="jumbotron">
-    <h1 class="display-4">INDUSTRY</h1>
+    <h1 class="display-4" id="name"></h1>
     <hr class="my-4">
     <p></p>
 </div>

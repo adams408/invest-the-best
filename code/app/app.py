@@ -50,9 +50,11 @@ def company():
 
 @app.route('/select', methods=['POST'])
 def select():
+    name = request.form['name']
     for meta in meta_data():
-        if meta.get('name') == request.form['name']:
+        if meta.get('name') == name:
             return jsonify(meta)
+    return jsonify({'name': name, 'description': 'error'})
 
 
 @app.route('/graph', methods=['POST'])
@@ -79,8 +81,9 @@ def graph():
 
 @app.route('/search', methods=['POST'])
 def search():
+    name = request.form['name']
     for meta in meta_data():
-        if meta.get('name') == request.form['name']:
+        if meta.get('name') == name:
             return jsonify({'name': meta.get('name')})
 
 
