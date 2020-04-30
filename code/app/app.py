@@ -68,8 +68,8 @@ def graph():
     for day in data:
         x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
 
-    if os.path.exists('ai/prediction_data/{}.pkl'.format(data_symbol)):
-        with open('ai/prediction_data/{}.pkl'.format(data_symbol), "rb") as f:
+    if os.path.exists('ai/predictions/{}.pkl'.format(data_symbol)):
+        with open('ai/predictions/{}.pkl'.format(data_symbol), "rb") as f:
             prediction = pickle.load(f)
         for day in prediction:
             x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
@@ -87,4 +87,4 @@ def graph():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1')
+    app.run(debug=True, host='127.0.0.1', port=8000)
