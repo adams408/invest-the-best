@@ -75,22 +75,15 @@
                 }
             });
         });
+
     </script>
     <script>
-        $(document).ready(function() {
-            $('form').on('submit', function(event) {
-                $.ajax({
-                    data : {
-                        name: $('#searchInput').val()
-                    },
-                    type : 'POST',
-                    url : '/search'
-                }).done(function(data) {
-                    document.location.href = "/company?company=" + data.name
-                });
-                event.preventDefault();
-            });
-        });
+        function change() {
+          var x = document.getElementById("search box").value;
+          console.log(x);
+
+          document.getElementById("search").href="/company?company=" + x + "/";
+        }
     </script>
 </head>
 <body id="company">
@@ -108,8 +101,8 @@
         <ul class="navbar-nav mr-auto">
             <li>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <input id="search box"class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <a id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="change()">Search</a>
                 </form>
             </li>
             <li class="nav-item dropdown">
