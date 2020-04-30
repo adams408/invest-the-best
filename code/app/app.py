@@ -64,17 +64,18 @@ def graph():
         if meta.get('name') == request.form['name']:
             data_symbol = meta.get('ticker')
 
-    x = [['Date', 'Stock Price']]
+    x = [['Date', 'Stock Price', 'Predictions']]
     with open('data/stock_data/{}/{}.pkl'.format(data_symbol, data_symbol), "rb") as f:
         data = pickle.load(f)
     for day in data:
-        x.append([day.get('date')[:day.get('date').index('T')], day.get('close')])
+        x.append([day.get('date')[:day.get('date').index('T')], day.get('close'), None])
 
     if os.path.exists('ai/predictions/{}.pkl'.format(data_symbol)):
         with open('ai/predictions/{}.pkl'.format(data_symbol), "rb") as f:
             prediction = pickle.load(f)
+        x.append([prediction[0].get('date'), prediction[0].get('close'), prediction[0].get('close')])
         for day in prediction:
-            x.append([day.get('date'), day.get('close')])
+            x.append([day.get('date'), None, day.get('close')])
 
     return jsonify({'x': x})
 
