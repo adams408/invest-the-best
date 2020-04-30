@@ -66,6 +66,7 @@ if __name__ == "__main__":
         if df.shape[0] < 300:
             print(f'{symbol} does not have enough data')
             continue
+
         date = df.index.astype('datetime64[ns]')
         
         normalizer = preprocessing.MinMaxScaler()
@@ -98,13 +99,13 @@ if __name__ == "__main__":
         predict = normalizer.inverse_transform(predict)
 
         predictions_ = pd.DataFrame(predict,columns=['close','high','low','open'])
-        pred_dates = pred_dates.to_frame(index=False).rename(columns={0:'date'})
-        
+        pred_dates = pred_dates.to_frame(index=False).rename(columns={0:'date'}).astype('str')
         predictions = pred_dates.join(predictions_)
         predictions.drop(columns=['high','low','open'],inplace=True)
+
         
         with open(f'ai/predictions/{symbol}.pkl','wb') as f:
-            pickle.dump(predictions.to_json(orient='records',date_format='iso'),f)
+            pickle.dump(predictions.to_dict(orient='records'),f)
 
         print(f'finished {symbol}')
 
