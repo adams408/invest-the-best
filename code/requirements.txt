@@ -13,12 +13,12 @@ grpcio==1.28.1
 h5py==2.10.0
 idna==2.9
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 joblib==0.14.1
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.0
 kiwisolver==1.2.0
-lxml==4.5.0
+lxml==4.6.3
 Markdown==3.2.1
 MarkupSafe==1.1.1
 matplotlib==3.2.1
@@ -35,9 +35,9 @@ six==1.14.0
 sklearn==0.0
 soupsieve==2.0
 tensorboard==1.14.0
-tensorflow==1.14.0
+tensorflow==2.5.0
 tensorflow-estimator==1.14.0
 termcolor==1.1.0
-urllib3==1.25.9
+urllib3==1.26.5
 Werkzeug==1.0.1
 wrapt==1.12.1
