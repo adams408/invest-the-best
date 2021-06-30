@@ -1,2 +1,2 @@
-# Invest-the-Best
+# Invest the Best
 We are creating a service that can analyze company’s stock prices and based on fluctuations, is able to predict whether in the next month the stocks will rise. We want to create a service that can separate companies by industry. The service should be able to see trends in the industry to predict what would happen to the company. This service will be displayed as a web page. The webpage will have easy access to see any companies’ stocks and the trends in the industry.
